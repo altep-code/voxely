@@ -364,7 +364,6 @@ func generate_chunk_data():
 		for z in range(16):
 			var pos = Vector2(x,z)
 			var height = floor(noise.get_noise_2d(x,z) * 16+20)
-			height  = 16
 			for y in range(height):
 			
 				if y == height-1:
@@ -415,8 +414,10 @@ func set_block(vec: Vector3i, block_identifier: String) -> bool:
 	var index = vec3_to_index(vec)
 	
 	if block_identifier == "air":
-		chunk_data.blocks.erase(index)
-		return true
+		if chunk_data.blocks.has(index):
+			chunk_data.blocks.erase(index)
+			return true
+		return false
 
 	if palette != null: 
 		chunk_data.blocks.set(index, palette)

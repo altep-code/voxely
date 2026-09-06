@@ -48,17 +48,17 @@ func do_chunks():
 				var chunk: WorldChunk = chunks.get(local_chunk_pos)
 				if chunk.is_data_generated:
 					
-					#var mesh_inst := MeshInstance3D.new()
-					#var mesh = BoxMesh.new()
-					#var mat = StandardMaterial3D.new()
-					#mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-					#mat.albedo_color = Color(1.0, 1.0, 1.0, 0.035)
-					#mesh.material = mat
-					#mesh_inst.mesh = mesh
-					#mesh.size = Vector3(15.5, 256, 15.5)
+					var mesh_inst := MeshInstance3D.new()
+					var mesh = BoxMesh.new()
+					var mat = StandardMaterial3D.new()
+					mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+					mat.albedo_color = Color(1.0, 1.0, 1.0, 0.035)
+					mesh.material = mat
+					mesh_inst.mesh = mesh
+					mesh.size = Vector3(15.5, 256, 15.5)
 			
-					#mesh_inst.position = Vector3(local_x + .5,-2,local_y + .5) * 16 
-			
+					mesh_inst.position = Vector3(local_x + .5,-2,local_y + .5) * 16 
+					#add_child(mesh_inst)
 					
 					chunk.north_neighbor = manager.find_chunk(global_coords + Vector2i.UP)
 					chunk.east_neighbor = manager.find_chunk(global_coords + Vector2i.RIGHT)
@@ -92,18 +92,18 @@ func do_chunks():
 			
 			add_child(chunk)
 			
-			#var mesh_inst := MeshInstance3D.new()
-			#var mesh = BoxMesh.new()
-			#var mat = StandardMaterial3D.new()
-			#mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-			#mat.albedo_color = Color(1.0, 1.0, 1.0, 0.035)
-			#mesh.material = mat
-			#mesh_inst.mesh = mesh
-			#mesh.size = Vector3(15.5, 256, 15.5)
+			var mesh_inst := MeshInstance3D.new()
+			var mesh = BoxMesh.new()
+			var mat = StandardMaterial3D.new()
+			mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+			mat.albedo_color = Color(1.0, 1.0, 1.0, 0.035)
+			mesh.material = mat
+			mesh_inst.mesh = mesh
+			mesh.size = Vector3(15.5, 256, 15.5)
 			
-			#mesh_inst.position = Vector3(local_x + .5,-2,local_y + .5) * 16 
+			mesh_inst.position = Vector3(local_x + .5,-2,local_y + .5) * 16 
 			
-			
+			#add_child(mesh_inst)
 			
 			loaded_chunks.set(Vector2i(local_x, local_y), true)
 

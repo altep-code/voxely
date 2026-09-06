@@ -4,6 +4,8 @@ extends Node3D
 
 @onready var world: WorldManager	 = $"../WorldManager"
 
+var time:= Time.get_ticks_msec()
+
 
 var box =  _create_wireframe_box(Vector3(1.01,1.01,1.01))
 var box_mesh = MeshInstance3D.new()
@@ -35,9 +37,10 @@ func _physics_process(delta):
 		var snap_position = floor(result.position -	 result.normal * 0.5) + Vector3(0.5, 0.5, 0.5)
 		box_mesh.position = snap_position
 		
-		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-			print("Snap: ",snap_position)
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and Time.get_ticks_msec() - time > 100:
+			#print("Snap: ",snap_position)
 			world.set_block(snap_position, "air")
+			time = Time.get_ticks_msec()
 	
 	
 func _create_wireframe_box(size: Vector3) -> ImmediateMesh:
