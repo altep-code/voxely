@@ -154,9 +154,17 @@ func set_block(pos: Vector3, identifier: String):
 		if region.chunks.has(local_coord):
 			var chunk: WorldChunk = region.chunks.get(local_coord)
 			var local_pos = _global_to_local_block(posi, chunk_glob_coord)
-			var is_set = chunk.set_block(local_pos 	, identifier)
+			var is_set = chunk.set_block(local_pos, identifier)
 			if is_set:
 				chunk.generate_meshes()
+				if local_pos.x == 0: 
+					chunk.west_neighbor.generate_meshes()
+				if local_pos.z == 0: 
+					chunk.north_neighbor.generate_meshes()
+				if local_pos.x == 15: 
+					chunk.east_neighbor.generate_meshes()
+				if local_pos.z == 15: 
+					chunk.south_neighbor.generate_meshes()
 			print("[CHUNK", local_coord, "]Local v. Global", local_pos, " ", posi)
 	else: 
 		print("Sir, we fucked up and are somehow breaking blocks in an non-existent region... or you are hacking.")
