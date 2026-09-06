@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://c5pa3jofowvrg"]
+
+[ext_resource type="Shader" uid="uid://ci437uvwaruqp" path="res://chunks.gdshader" id="1_aksgx"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_aksgx")

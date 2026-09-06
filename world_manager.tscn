@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cejpsksph6qlq"]
+
+[ext_resource type="Script" uid="uid://boiccue5g6atw" path="res://scripts/world/world_renderer.gd" id="1_3bbl4"]
+
+[node name="WorldManager" type="Node" unique_id=209781010]
+script = ExtResource("1_3bbl4")
+metadata/_custom_type_script = "uid://boiccue5g6atw"
+
+[node name="Regions" type="Node" parent="." unique_id=1594474529]

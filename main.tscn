@@ -1,0 +1,147 @@
+[gd_scene format=3 uid="uid://bdl6gotx60r8n"]
+
+[ext_resource type="Script" uid="uid://cb0wye887acja" path="res://freecam.gd" id="1_h2yge"]
+[ext_resource type="Texture2D" uid="uid://yccw6fqkh6uq" path="res://dirt.png" id="2_1bvp3"]
+[ext_resource type="Script" uid="uid://bilg72qlk4tw2" path="res://player.gd" id="3_lquwl"]
+[ext_resource type="FontFile" uid="uid://dj88n8nbvvgdr" path="res://Minecraft.otf" id="4_1bvp3"]
+[ext_resource type="Script" uid="uid://cjhf4rx8j1b4w" path="res://loader.gd" id="4_lquwl"]
+[ext_resource type="PackedScene" uid="uid://cejpsksph6qlq" path="res://world_manager.tscn" id="6_7mycd"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7mycd"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_88kwv"]
+sky_material = SubResource("ProceduralSkyMaterial_7mycd")
+
+[sub_resource type="Environment" id="Environment_272bh"]
+background_mode = 2
+sky = SubResource("Sky_88kwv")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jnmol"]
+albedo_color = Color(0, 1, 1, 1)
+emission_enabled = true
+emission_energy_multiplier = 16.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_5vw27"]
+material = SubResource("StandardMaterial3D_jnmol")
+size = Vector3(1, 99, 1)
+
+[sub_resource type="TextMesh" id="TextMesh_kek77"]
+text = "z-"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4c57u"]
+albedo_texture = ExtResource("2_1bvp3")
+metallic = 1.0
+metallic_specular = 0.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_efxa6"]
+size = Vector3(20, 1, 21.262177)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dg77c"]
+bg_color = Color(1, 1, 1, 1)
+
+[node name="Main" type="Node3D" unique_id=1476759870]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=79129514]
+environment = SubResource("Environment_272bh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=950641785]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+
+[node name="Freecam3D" type="Camera3D" parent="." unique_id=1350767913]
+script = ExtResource("1_h2yge")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1407671661]
+mesh = SubResource("BoxMesh_5vw27")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=534636176]
+transform = Transform3D(141.5, 0, 0, 0, 141.5, 0, 0, 0, 141.5, 0, 0, -7.5141344)
+mesh = SubResource("TextMesh_kek77")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1373260903]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.131088)
+material_override = SubResource("StandardMaterial3D_4c57u")
+mesh = SubResource("BoxMesh_efxa6")
+
+[node name="Control" type="Control" parent="." unique_id=317176997]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Control" unique_id=832584926]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -16.0
+offset_right = 2.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dg77c")
+
+[node name="Panel2" type="Panel" parent="Control" unique_id=438905279]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -2.0
+offset_right = 16.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dg77c")
+
+[node name="player" type="Node3D" parent="." unique_id=157587438 node_paths=PackedStringArray("attach_to")]
+script = ExtResource("3_lquwl")
+attach_to = NodePath("../Freecam3D")
+
+[node name="Loader" type="Node" parent="." unique_id=338498363]
+script = ExtResource("4_lquwl")
+
+[node name="LoadingMenu" type="Control" parent="Loader" unique_id=415917461]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Loader/LoadingMenu" unique_id=894052378]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Loader/LoadingMenu/Panel" unique_id=407210555]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -23.0
+offset_right = 95.0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("4_1bvp3")
+text = "Loading..."
+
+[node name="TextureRect" type="TextureRect" parent="Loader/LoadingMenu" unique_id=1057306657]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="WorldManager" parent="." unique_id=209781010 instance=ExtResource("6_7mycd")]
