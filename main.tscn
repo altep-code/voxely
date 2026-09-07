@@ -53,14 +53,17 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 script = ExtResource("1_h2yge")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1407671661]
+visible = false
 mesh = SubResource("BoxMesh_5vw27")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=534636176]
 transform = Transform3D(141.5, 0, 0, 0, 141.5, 0, 0, 0, 141.5, 0, 0, -7.5141344)
+visible = false
 mesh = SubResource("TextMesh_kek77")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1373260903]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10.131088)
+visible = false
 material_override = SubResource("StandardMaterial3D_4c57u")
 mesh = SubResource("BoxMesh_efxa6")
 
