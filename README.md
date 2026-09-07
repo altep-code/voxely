@@ -1,4 +1,4 @@
-This game is a very early prototype
+This game is a very early prototype under Godot v4.7.1
 
 The game won't work out of the box, for legal reasons i have to exlude minecraft assets from the root of the project, just take the minecraft folder inside assets in the official JAR and place it at the root so "res://minecraft/textures/block" is a thing. (The assets i used in developement come from MC 1.21.1)
 
