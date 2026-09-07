@@ -15,9 +15,9 @@ func get_atlas(atlas_name: String):
 		return ATLASES.get(atlas_name)
 	return null
 	
-func get_atlas_coordinates(atlas_name: String, texture_name: String):
+func get_atlas_coordinates(atlas_name: String, texture_path: String):
 	if COORDS.has(atlas_name):
 		var atlas_coords: Dictionary[String, Rect2i] = COORDS.get(atlas_name)
-		if atlas_coords.has(texture_name):
-			return atlas_coords.get(texture_name)
+		if atlas_coords.has(texture_path):
+			return atlas_coords.get(texture_path)
 	return Rect2i(Vector2i(0,0), Vector2i(1,1))

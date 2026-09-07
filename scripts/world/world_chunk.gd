@@ -367,13 +367,13 @@ func generate_chunk_data():
 			for y in range(height):
 			
 				if  y == 0:
-					set_block(Vector3i(x,y,z), "bedrock.png")
+					set_block(Vector3i(x,y,z), "minecraft:bedrock")
 				elif y <= height-4:
-					set_block(Vector3i(x,y,z), "stone.png")
+					set_block(Vector3i(x,y,z), "minecraft:stone")
 				elif y == height-1:
-					set_block(Vector3i(x,y,z), "moss_block.png")
+					set_block(Vector3i(x,y,z), "minecraft:moss_block")
 				else: 
-					set_block(Vector3i(x,y,z), "dirt.png")
+					set_block(Vector3i(x,y,z), "minecraft:dirt")
 
 			
 			#print("CHUNK ", x, " ", y, " ", height )

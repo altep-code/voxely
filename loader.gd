@@ -10,7 +10,7 @@ func _ready() -> void:
 func _stitch_atlases():
 	var block_atlas = ImageAtlas.new()
 	
-	var dict = block_atlas.get_stitched_texture("res://minecraft/textures/block")
+	var dict = block_atlas.get_stitched_texture(["minecraft"],["res://minecraft/textures/block"])
 	
 	var img = dict.IMAGE
 	var coords = dict.COORDINATES

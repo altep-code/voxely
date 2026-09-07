@@ -43,7 +43,7 @@ func _physics_process(delta):
 			time = Time.get_ticks_msec()
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and Time.get_ticks_msec() - time > 75:
 			#print("Snap: ",snap_position)
-			world.set_block(snap_position + result.normal, "cobblestone.png")
+			world.set_block(snap_position + result.normal, "minecraft:cobblestone")
 			time = Time.get_ticks_msec()
 		
 	
