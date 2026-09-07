@@ -366,10 +366,12 @@ func generate_chunk_data():
 			var height = floor(noise.get_noise_2d(x,z) * 16+20)
 			for y in range(height):
 			
-				if y == height-1:
-					set_block(Vector3i(x,y,z), "moss_block.png")
+				if  y == 0:
+					set_block(Vector3i(x,y,z), "bedrock.png")
 				elif y <= height-4:
 					set_block(Vector3i(x,y,z), "stone.png")
+				elif y == height-1:
+					set_block(Vector3i(x,y,z), "moss_block.png")
 				else: 
 					set_block(Vector3i(x,y,z), "dirt.png")
 
