@@ -33,7 +33,7 @@ func get_stitched_texture(namespaces: Array[String], texture_folders: Array[Stri
 				var x = i % (res/16) * 16
 				var rect = Rect2i(Vector2i(0,0), Vector2i(16, 16))
 			
-				print(i/(res/16), ", ", i % (res/16), " ", files[i])
+				#print(i/(res/16), ", ", i % (res/16), " ", files[i])
 				var img := load(folder.path_join(files[i]))
 				if img is Image: 
 					if img.is_compressed():
@@ -41,7 +41,7 @@ func get_stitched_texture(namespaces: Array[String], texture_folders: Array[Stri
 					img.convert(atlas.get_format())
 				
 					coords.set(namespaces[index] + ":" + files[i].get_basename(), Rect2i(Vector2i(x,y)/16, Vector2i(x+16,y+16)/16))
-					print(namespaces[index] + ":" + files[i].get_basename())
+					#print(namespaces[index] + ":" + files[i].get_basename())
 					
 					atlas.blit_rect(img, rect, Vector2i(x,y))
 				elif img is Texture2D:

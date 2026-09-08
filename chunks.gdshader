@@ -9,8 +9,12 @@ void fragment() {
 	float y = UV.y / 64.0;
 	float x = UV.x / 64.0;
 	vec2 surface = vec2(x,y);
-	
-	ALBEDO = texture(atlas, surface).rgb;
+	vec4 tex = texture(atlas, surface);
+	if (tex.a < 0.5) {
+    	discard;
+	}
+
+	ALBEDO = tex.rgb;
 	ROUGHNESS = 1.0; 
     SPECULAR = 0.0;
 }

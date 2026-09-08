@@ -61,19 +61,74 @@ func generate_full_blocks():
 	var time = Time.get_ticks_msec()
 
 	var vert_cnt = 0
+	VERTEX.resize(65536 *4*5)
+	INDECIES.resize(65536 *6*5)
+	NORMALS.resize(65536*4*5)
+	UV.resize(65536*4*5)
 	for block_pos in chunk_data.blocks:
 		var block = chunk_data.blocks.get(block_pos)
 		var palette = chunk_data.palette.get(block)
+		var vec = index_to_vec3(block_pos)
+
+		var rect: Rect2i = AtlasManager.get_atlas_coordinates("block", palette)
 		
-		var rect: Rect2i = AtlasManager.get_atlas_coordinates("blocks", palette)
 		
+		var model_data = ModelManager.get_model(palette)
+		
+		if model_data.vertices.size() % 4 != 0:
+			push_error("[CHUNK RENDERER] A model `", palette, "` is not divisible by 4, therefore is not made out of quads.")
+			continue
+
+		for vert_i in range(model_data.vertices.size()/4):
+			
+			var cull = _cullface_to_vector(model_data.culls.get(vert_i))
+			if cull != null:
+				if _do_stuff_that_checks_neighbor_blocks(block_pos, cull):
+					continue
+			vert_i *= 4
+			
+			VERTEX[vert_cnt] = (model_data.vertices.get(vert_i)    + Vector3(vec))
+			VERTEX[vert_cnt + 1] = (model_data.vertices.get(vert_i + 1)+ Vector3(vec))
+			VERTEX[vert_cnt + 2] = (model_data.vertices.get(vert_i + 2)+ Vector3(vec))
+			VERTEX[vert_cnt + 3] = (model_data.vertices.get(vert_i + 3)+ Vector3(vec))
+			
+			NORMALS[vert_cnt] = (model_data.normals.get(vert_i))
+			NORMALS[vert_cnt + 1] = (model_data.normals.get(vert_i + 1))
+			NORMALS[vert_cnt + 2] = (model_data.normals.get(vert_i + 2))
+			NORMALS[vert_cnt + 3] = (model_data.normals.get(vert_i + 3))
+			
+			UV[vert_cnt] = (model_data.uvs.get(vert_i))
+			UV[vert_cnt + 1] = (model_data.uvs.get(vert_i + 1))
+			UV[vert_cnt + 2] = (model_data.uvs.get(vert_i + 2))
+			UV[vert_cnt + 3	] = (model_data.uvs.get(vert_i + 3))
+			
+			CHUNK_COLLIDER.append(VERTEX[vert_cnt])
+			CHUNK_COLLIDER.append(VERTEX[vert_cnt + 2])
+			CHUNK_COLLIDER.append(VERTEX[vert_cnt + 1])
+			CHUNK_COLLIDER.append(VERTEX[vert_cnt + 2])
+			CHUNK_COLLIDER.append(VERTEX[vert_cnt + 3])
+			CHUNK_COLLIDER.append(VERTEX[vert_cnt + 1])
+			
+			var idx: int = (vert_cnt * 3) / 2
+
+			INDECIES[idx]     = vert_cnt
+			INDECIES[idx + 1] = vert_cnt + 2
+			INDECIES[idx + 2] = vert_cnt + 1
+			INDECIES[idx + 3] = vert_cnt + 2
+			INDECIES[idx + 4] = vert_cnt + 3
+			INDECIES[idx + 5] = vert_cnt + 1
+			vert_cnt += 4
+		
+		
+		
+		
+		continue
 		# Below is what i call the behemoth, goliath, or even the monolith, it works, don't tweak anything
 		# If you haven't looked at the line count... you will notice this is only the first one.
 		# AKA The Full Block Goliath
 		# Top face
 		if not chunk_data.blocks.has(vec3_to_index(index_to_vec3(block_pos) + Vector3i.UP)):
 			#print(index_to_vec3(block_pos))
-			var vec = index_to_vec3(block_pos)
 			#print(vec)
 			VERTEX.append(Vector3(vec) + Vector3( 1,  1,  1))
 			VERTEX.append(Vector3(vec) + Vector3( 1,  1,  0))
@@ -84,8 +139,7 @@ func generate_full_blocks():
 			NORMALS.append(Vector3.UP)
 			NORMALS.append(Vector3.UP)
 			NORMALS.append(Vector3.UP)
-			
-			
+
 			UV.append(Vector2(rect.size.x, rect.size.y)) # 1, 1
 			UV.append(Vector2(rect.size.x, rect.position.y)) # 1, 0
 			UV.append(Vector2(rect.position.x, rect.size.y)) # 0, 1
@@ -108,7 +162,6 @@ func generate_full_blocks():
 			vert_cnt += 4
 		if not chunk_data.blocks.has(vec3_to_index(index_to_vec3(block_pos) + Vector3i.DOWN)):
 			#print(index_to_vec3(block_pos))
-			var vec = index_to_vec3(block_pos)
 			#print(vec)
 			VERTEX.append(Vector3(vec) + Vector3( 1,  0,  1))
 			VERTEX.append(Vector3(vec) + Vector3( 0,  0,  1))
@@ -143,8 +196,8 @@ func generate_full_blocks():
 			vert_cnt += 4
 		
 		
+		
 		if not _do_stuff_that_checks_neighbor_blocks(block_pos, Vector3i.FORWARD):
-			var vec = index_to_vec3(block_pos)
 			#print(vec)
 			VERTEX.append(vec + Vector3i( 0,  1, 0))
 			VERTEX.append(vec + Vector3i( 1,  1, 0))
@@ -177,7 +230,6 @@ func generate_full_blocks():
 
 			vert_cnt += 4
 		if not _do_stuff_that_checks_neighbor_blocks(block_pos, Vector3i.RIGHT):
-			var vec = index_to_vec3(block_pos)
 			#print(vec)
 			VERTEX.append(vec + Vector3i( 1,  1, 0))
 			VERTEX.append(vec + Vector3i( 1,  1, 1))
@@ -211,7 +263,6 @@ func generate_full_blocks():
 			vert_cnt += 4
 			
 		if not _do_stuff_that_checks_neighbor_blocks(block_pos, Vector3i.BACK):
-			var vec = index_to_vec3(block_pos)
 			#print(vec)
 			VERTEX.append(vec + Vector3i( 0,  1, 1))
 			VERTEX.append(vec + Vector3i( 0,  0, 1))
@@ -245,7 +296,6 @@ func generate_full_blocks():
 
 			
 		if not _do_stuff_that_checks_neighbor_blocks(block_pos, Vector3i.LEFT):
-			var vec = index_to_vec3(block_pos)
 			#print(vec)
 			VERTEX.append(vec + Vector3i( 0,  1, 0))
 			VERTEX.append(vec + Vector3i( 0,  0, 0))
@@ -262,21 +312,15 @@ func generate_full_blocks():
 			UV.append(Vector2(rect.size.x, rect.position.y)) # 1, 0
 			UV.append(Vector2(rect.size.x, rect.size.y)) # 1, 1
 			
-			CHUNK_COLLIDER.append(VERTEX[vert_cnt])
-			CHUNK_COLLIDER.append(VERTEX[vert_cnt + 2])
-			CHUNK_COLLIDER.append(VERTEX[vert_cnt + 1])
-			CHUNK_COLLIDER.append(VERTEX[vert_cnt + 2])
-			CHUNK_COLLIDER.append(VERTEX[vert_cnt + 3])
-			CHUNK_COLLIDER.append(VERTEX[vert_cnt + 1])
-			
-			INDECIES.append(vert_cnt)
-			INDECIES.append(vert_cnt + 2)
-			INDECIES.append(vert_cnt + 1)
-			INDECIES.append(vert_cnt + 2)
-			INDECIES.append(vert_cnt + 3)
-			INDECIES.append(vert_cnt + 1)
+
 
 			vert_cnt += 4
+	
+	print("Vert count: ", vert_cnt)
+	VERTEX = VERTEX.slice(0, vert_cnt)
+	INDECIES = INDECIES.slice(0, int(vert_cnt*1.5))
+	NORMALS = NORMALS.slice(0, vert_cnt)
+	UV = UV.slice(0, vert_cnt)
 	
 	arrays.resize(Mesh.ARRAY_MAX)
 	arrays[Mesh.ARRAY_VERTEX] = VERTEX
@@ -356,15 +400,15 @@ func generate_chunk_data():
 	noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	noise.offset = Vector3(global_pos.x, global_pos.y, 0) * 16 	 
 	
-	var blocks: Dictionary[int, int]= {}
-	
-	
-	
 	for x in range(16):
-		for z in range(16):
+		for z in range(16):		
 			var pos = Vector2(x,z)
 			var height = floor(noise.get_noise_2d(x,z) * 16+20)
+			height = 1
 			for y in range(height):
+			
+				set_block(Vector3i(x,y,z), "minecraft:beacon")
+				continue
 			
 				if  y == 0:
 					set_block(Vector3i(x,y,z), "minecraft:bedrock")
@@ -392,7 +436,7 @@ func index_to_vec3(index: int) -> Vector3i:
 
 func apply_texture(mesh_instance_node, texture_path):
 	
-	var texture = AtlasManager.get_atlas("blocks")
+	var texture = AtlasManager.get_atlas("block")
 	
 	if texture == null:
 		print("oops... too early...")
@@ -435,3 +479,21 @@ func set_block(vec: Vector3i, block_identifier: String) -> bool:
 		
 		
 	return false
+
+func _cullface_to_vector(cullface: String):
+	match cullface:
+		"up":
+			return Vector3i.UP
+		"down":
+			return Vector3i.DOWN
+		"west":
+			return Vector3i.LEFT
+		"east":
+			return Vector3i.RIGHT
+		"north":
+			return Vector3i.FORWARD
+		"south":
+			return Vector3i.BACK
+		_:
+			return null
+		

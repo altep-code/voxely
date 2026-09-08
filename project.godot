@@ -18,7 +18,9 @@ config/icon="res://icon.svg"
 [autoload]
 
 Registries="*uid://ciyqvubosg4v5"
+ResourceUtils="*uid://cygd642h00bgh"
 AtlasManager="*uid://c0s26kvyn6y6g"
+ModelManager="*uid://b0ti83lenf8iw"
 
 [physics]
 

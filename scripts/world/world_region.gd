@@ -11,7 +11,7 @@ var region_coords: Vector2i
 
 const chunk_size = 16
 
-var render_distance = 2 * 16
+var render_distance = 1 * 16
 var last_position
 func init():
 	pass
